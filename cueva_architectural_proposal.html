@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUEVA - Antepropuesta Arquitectónica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cueva-navy: #1B2951;
+            --cueva-electric: #00D4AA;
+            --cueva-coral: #FF6B4A;
+            --cueva-amber: #F59E0B;
+            --cueva-sky: #0EA5E9;
+            --gray-900: #0F172A;
+            --gray-800: #1E293B;
+            --gray-700: #334155;
+            --gray-600: #475569;
+            --gray-500: #64748B;
+            --gray-400: #94A3B8;
+            --gray-300: #CBD5E1;
+            --gray-200: #E2E8F0;
+            --gray-100: #F1F5F9;
+            --gray-50: #F8FAFC;
+            --white: #FFFFFF;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--gray-900);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animated {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.05;
+        }
+
+        .bg-element {
+            position: absolute;
+            border: 1px solid var(--cueva-electric);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-element:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        .bg-element:nth-child(2) { width: 60px; height: 60px; top: 30%; right: 10%; animation-delay: -5s; }
+        .bg-element:nth-child(3) { width: 80px; height: 40px; bottom: 20%; left: 15%; animation-delay: -10s; }
+        .bg-element:nth-child(4) { width: 120px; height: 120px; top: 60%; right: 20%; animation-delay: -15s; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); border-color: var(--cueva-electric); }
+            25% { transform: translate(30px, -30px) rotate(90deg); border-color: var(--cueva-coral); }
+            50% { transform: translate(-20px, 40px) rotate(180deg); border-color: var(--cueva-sky); }
+            75% { transform: translate(40px, 20px) rotate(270deg); border-color: var(--cueva-amber); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 170, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .nav-circle {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--cueva-electric);
+            border-radius: 50%;
+            position: absolute;
+            animation: navMorph 6s ease-in-out infinite;
+        }
+
+        @keyframes navMorph {
+            0%, 100% { border-radius: 50%; border-color: var(--cueva-electric); }
+            33% { border-radius: 25% 75%; border-color: var(--cueva-coral); }
+            66% { border-radius: 75% 25%; border-color: var(--cueva-sky); }
+        }
+
+        .nav-text {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--cueva-electric);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cueva-electric);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 1000px;
+            padding: 2rem;
+        }
+
+        .hero-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--cueva-electric);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--white), var(--cueva-electric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 3vw, 24px);
+            color: var(--gray-400);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            animation: fadeInUp 0.6s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--cueva-electric);
+            color: var(--gray-900);
+        }
+
+        .btn-primary:hover {
+            background: var(--cueva-sky);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--gray-600);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cueva-electric);
+            color: var(--cueva-electric);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Base */
+        .section {
+            padding: 8rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--cueva-coral);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--gray-400);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--cueva-electric);
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.2);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
+            padding: 2rem;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .gallery-desc {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        /* Video Section */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .video-container:hover {
+            border-color: var(--cueva-amber);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.2);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Plans Section */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+        }
+
+        .plan-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .plan-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--cueva-sky);
+            transform: translateY(-5px);
+        }
+
+        .plan-image {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--cueva-sky);
+        }
+
+        .plan-desc {
+            font-size: 16px;
+            color: var(--gray-400);
+            line-height: 1.7;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 4rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--cueva-electric), var(--cueva-coral), var(--cueva-sky));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--cueva-electric);
+            transform: scale(1.05);
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--cueva-electric);
+            border: 4px solid var(--gray-900);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--gray-900);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--cueva-navy), var(--gray-900));
+            border-top: 1px solid rgba(0, 212, 170, 0.2);
+            border-bottom: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .cta-content {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-title {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--cueva-electric), var(--cueva-sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-text {
+            font-size: 20px;
+            color: var(--gray-400);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--cueva-electric);
+            margin-bottom: 1rem;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: var(--cueva-coral);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--cueva-electric);
+            transform: rotate(90deg);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--cueva-electric);
+            border-radius: 20px;
+            animation: scrollBounce 2s infinite;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--cueva-electric);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: scrollDot 2s infinite;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes scrollDot {
+            0% { opacity: 1; top: 8px; }
+            50% { opacity: 0.5; top: 20px; }
+            100% { opacity: 0; top: 32px; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-content {
+                width: 100%;
+                margin-left: 60px;
+            }
+
+            .timeline-icon {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animated">
+        <div class="bg-element"></div>
+        <div class="bg-element"></div>
+        <div class="bg-element"></div>
+        <div class="bg-element"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <div class="nav-logo">
+                <div class="nav-circle"></div>
+            </div>
+            <div class="nav-text">CUEVA</div>
+        </div>
+        <div class="nav-menu">
+            <a href="#bocetos" class="nav-link">Bocetos</a>
+            <a href="#referencias" class="nav-link">Referencias</a>
+            <a href="#planos" class="nav-link">Planos</a>
+            <a href="#modelos" class="nav-link">Modelos</a>
+            <a href="#videos" class="nav-link">Videos</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">Antepropuesta Arquitectónica</div>
+            <h1 class="hero-title">Sistema Universal de Construcción</h1>
+            <p class="hero-subtitle">Innovación arquitectónica con geometría paramétrica adaptativa</p>
+            <div class="hero-cta">
+                <a href="#bocetos" class="btn btn-primary">Explorar Propuesta</a>
+                <a href="#videos" class="btn btn-secondary">Ver Videos</a>
+            </div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Bocetos Section -->
+    <section id="bocetos" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Fase Conceptual</div>
+                <h2 class="section-title">Bocetos y Concepto</h2>
+                <p class="section-subtitle">Desarrollo inicial del proyecto con geometrías diversas y adaptativas</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782128844.png')">
+                    <img src="freepik_assistant_1762782128844.png" alt="Boceto 1" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Boceto Conceptual 1</h3>
+                        <p class="gallery-desc">Exploración inicial de formas y espacios</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782132106.png')">
+                    <img src="freepik_assistant_1762782132106.png" alt="Boceto 2" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Boceto Conceptual 2</h3>
+                        <p class="gallery-desc">Desarrollo de geometrías parametricas</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782134823.png')">
+                    <img src="freepik_assistant_1762782134823.png" alt="Boceto 3" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Boceto Conceptual 3</h3>
+                        <p class="gallery-desc">Estudio volumétrico y espacial</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Referencias Section -->
+    <section id="referencias" class="section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Inspiración</div>
+                <h2 class="section-title">Referencias Visuales</h2>
+                <p class="section-subtitle">Imágenes de referencia que guían el desarrollo del proyecto</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782254388.png')">
+                    <img src="freepik_assistant_1762782254388.png" alt="Referencia 1" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Referencia Espacial</h3>
+                        <p class="gallery-desc">Inspiración para distribución de espacios</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782255371.png')">
+                    <img src="freepik_assistant_1762782255371.png" alt="Referencia 2" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Referencia Material</h3>
+                        <p class="gallery-desc">Estudio de materialidad y texturas</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782257671.png')">
+                    <img src="freepik_assistant_1762782257671.png" alt="Referencia 3" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Referencia Estructural</h3>
+                        <p class="gallery-desc">Análisis de sistemas constructivos</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782262908.png')">
+                    <img src="freepik_assistant_1762782262908.png" alt="Referencia 4" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Referencia Lumínica</h3>
+                        <p class="gallery-desc">Estudio de iluminación natural</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782279626.png')">
+                    <img src="freepik_assistant_1762782279626.png" alt="Referencia 5" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Referencia Contextual</h3>
+                        <p class="gallery-desc">Integración con el entorno</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782281721.png')">
+                    <img src="freepik_assistant_1762782281721.png" alt="Referencia 6" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Referencia Funcional</h3>
+                        <p class="gallery-desc">Análisis de programas similares</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos Section -->
+    <section id="planos" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Documentación Técnica</div>
+                <h2 class="section-title">Planos de Referencia</h2>
+                <p class="section-subtitle">Planimetría y documentación técnica del proyecto</p>
+            </div>
+            <div class="plans-grid">
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 134820.PNG" alt="Plano 1" class="plan-image">
+                    <h3 class="plan-title">Planta General</h3>
+                    <p class="plan-desc">Distribución espacial y organización funcional del proyecto con sistema modular universal</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 134835.jpg" alt="Plano 2" class="plan-image">
+                    <h3 class="plan-title">Secciones</h3>
+                    <p class="plan-desc">Cortes transversales mostrando relaciones verticales y alturas de espacios</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 134908.jpg" alt="Plano 3" class="plan-image">
+                    <h3 class="plan-title">Elevaciones</h3>
+                    <p class="plan-desc">Fachadas y tratamiento exterior del proyecto arquitectónico</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 135013.jpg" alt="Plano 4" class="plan-image">
+                    <h3 class="plan-title">Detalles Constructivos</h3>
+                    <p class="plan-desc">Detalles técnicos del sistema constructivo universal CUEVA</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 135135.jpg" alt="Plano 5" class="plan-image">
+                    <h3 class="plan-title">Implantación</h3>
+                    <p class="plan-desc">Relación del proyecto con el entorno y topografía del terreno</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 135221.jpg" alt="Plano 6" class="plan-image">
+                    <h3 class="plan-title">Esquemas Técnicos</h3>
+                    <p class="plan-desc">Diagramas de instalaciones y sistemas integrados</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 181046.png" alt="Plano 7" class="plan-image">
+                    <h3 class="plan-title">Planta Estructural</h3>
+                    <p class="plan-desc">Sistema estructural con geometría paramétrica modular</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 181122.png" alt="Plano 8" class="plan-image">
+                    <h3 class="plan-title">Análisis Espacial</h3>
+                    <p class="plan-desc">Estudio de circulaciones y flujos del proyecto</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 181318.png" alt="Plano 9" class="plan-image">
+                    <h3 class="plan-title">Detalles de Ensamblaje</h3>
+                    <p class="plan-desc">Sistema de conexión modular universal adaptativo</p>
+                </div>
+                <div class="plan-item">
+                    <img src="Captura de pantalla 2025-11-10 181446.png" alt="Plano 10" class="plan-image">
+                    <h3 class="plan-title">Especificaciones</h3>
+                    <p class="plan-desc">Detalles técnicos y especificaciones de materiales</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modelos 3D Section -->
+    <section id="modelos" class="section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Visualización 3D</div>
+                <h2 class="section-title">Modelos Tridimensionales</h2>
+                <p class="section-subtitle">Representaciones volumétricas del proyecto con sistema universal CUEVA</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('modelos v4.png')">
+                    <img src="modelos v4.png" alt="Modelo 3D 1" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Vista General</h3>
+                        <p class="gallery-desc">Modelo completo con geometría paramétrica</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('modelos v41.png')">
+                    <img src="modelos v41.png" alt="Modelo 3D 2" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Vista Perspectiva</h3>
+                        <p class="gallery-desc">Análisis volumétrico y espacial</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('modelos v42.png')">
+                    <img src="modelos v42.png" alt="Modelo 3D 3" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Detalle Modular</h3>
+                        <p class="gallery-desc">Sistema constructivo universal detallado</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('modelos v43.png')">
+                    <img src="modelos v43.png" alt="Modelo 3D 4" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Vista Aérea</h3>
+                        <p class="gallery-desc">Implantación y relación con entorno</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782298706.png')">
+                    <img src="freepik_assistant_1762782298706.png" alt="Render 1" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Render Exterior</h3>
+                        <p class="gallery-desc">Visualización fotorrealista del proyecto</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782316586.png')">
+                    <img src="freepik_assistant_1762782316586.png" alt="Render 2" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Render Interior</h3>
+                        <p class="gallery-desc">Espacios interiores y ambientación</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782319286.png')">
+                    <img src="freepik_assistant_1762782319286.png" alt="Render 3" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Detalle Arquitectónico</h3>
+                        <p class="gallery-desc">Elementos constructivos y materialidad</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782320154.png')">
+                    <img src="freepik_assistant_1762782320154.png" alt="Render 4" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Vista Nocturna</h3>
+                        <p class="gallery-desc">Iluminación artificial y ambiente nocturno</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782322287.png')">
+                    <img src="freepik_assistant_1762782322287.png" alt="Render 5" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Perspectiva Humana</h3>
+                        <p class="gallery-desc">Escala y proporción del proyecto</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782323157.png')">
+                    <img src="freepik_assistant_1762782323157.png" alt="Render 6" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Espacio Social</h3>
+                        <p class="gallery-desc">Áreas comunes y de interacción</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782324987.png')">
+                    <img src="freepik_assistant_1762782324987.png" alt="Render 7" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Contexto Urbano</h3>
+                        <p class="gallery-desc">Integración con el tejido urbano</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782325786.png')">
+                    <img src="freepik_assistant_1762782325786.png" alt="Render 8" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Materialidad</h3>
+                        <p class="gallery-desc">Texturas y acabados del proyecto</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782326553.png')">
+                    <img src="freepik_assistant_1762782326553.png" alt="Render 9" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Espacios Verdes</h3>
+                        <p class="gallery-desc">Integración de áreas ajardinadas</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782606934.png')">
+                    <img src="freepik_assistant_1762782606934.png" alt="Render 10" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Sistema Modular</h3>
+                        <p class="gallery-desc">Flexibilidad y adaptabilidad del sistema</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782608451.png')">
+                    <img src="freepik_assistant_1762782608451.png" alt="Render 11" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Composición</h3>
+                        <p class="gallery-desc">Equilibrio y armonía formal</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782609689.png')">
+                    <img src="freepik_assistant_1762782609689.png" alt="Render 12" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Luz Natural</h3>
+                        <p class="gallery-desc">Estrategias de iluminación pasiva</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782704600.png')">
+                    <img src="freepik_assistant_1762782704600.png" alt="Render 13" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Vista de Conjunto</h3>
+                        <p class="gallery-desc">Proyecto completo en contexto</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782705784.png')">
+                    <img src="freepik_assistant_1762782705784.png" alt="Render 14" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Accesos</h3>
+                        <p class="gallery-desc">Entradas y circulaciones principales</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('freepik_assistant_1762782709650.jpeg')">
+                    <img src="freepik_assistant_1762782709650.jpeg" alt="Render 15" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Atmósfera</h3>
+                        <p class="gallery-desc">Ambiente y carácter del proyecto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section id="videos" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Recorridos Virtuales</div>
+                <h2 class="section-title">Videos del Proyecto</h2>
+                <p class="section-subtitle">Animaciones y recorridos 3D del sistema universal CUEVA</p>
+            </div>
+            <div class="video-grid">
+                <div class="video-container">
+                    <video controls>
+                        <source src="Marble - Perfil 1_ Microsoft​ Edge 2025-11-10 17-28-27(1).mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+                <div class="video-container">
+                    <video controls>
+                        <source src="Marble - Perfil 1_ Microsoft​ Edge 2025-11-10 17-28-27(2).mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+                <div class="video-container">
+                    <video controls>
+                        <source src="Marble - Perfil 1_ Microsoft​ Edge 2025-11-10 17-28-27(3).mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+                <div class="video-container">
+                    <video controls>
+                        <source src="Marble - Perfil 1_ Microsoft​ Edge 2025-11-10 17-28-27(4).mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+                <div class="video-container">
+                    <video controls>
+                        <source src="Marble - Perfil 1_ Microsoft​ Edge 2025-11-10 17-28-27(5).mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+                <div class="video-container">
+                    <video controls>
+                        <source src="Marble - Perfil 1_ Microsoft​ Edge 2025-11-10 17-28-27.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Proceso de Desarrollo</div>
+                <h2 class="section-title">Fases del Proyecto</h2>
+                <p class="section-subtitle">Cronograma y metodología de implementación del sistema universal</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 1rem; color: var(--cueva-electric);">Fase 1: Conceptualización</h3>
+                        <p style="color: var(--gray-400); line-height: 1.7;">Desarrollo de bocetos iniciales, análisis de referencias y definición del concepto arquitectónico con geometría paramétrica universal.</p>
+                    </div>
+                    <div class="timeline-icon">1</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 1rem; color: var(--cueva-coral);">Fase 2: Anteproyecto</h3>
+                        <p style="color: var(--gray-400); line-height: 1.7;">Elaboración de planimetría básica, estudios volumétricos y primeras aproximaciones del sistema constructivo modular.</p>
+                    </div>
+                    <div class="timeline-icon">2</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 1rem; color: var(--cueva-sky);">Fase 3: Modelado 3D</h3>
+                        <p style="color: var(--gray-400); line-height: 1.7;">Generación de modelos tridimensionales, renders fotorrealistas y animaciones para visualización integral del proyecto.</p>
+                    </div>
+                    <div class="timeline-icon">3</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 1rem; color: var(--cueva-amber);">Fase 4: Proyecto Ejecutivo</h3>
+                        <p style="color: var(--gray-400); line-height: 1.7;">Desarrollo de planos constructivos detallados, especificaciones técnicas y documentación completa para ejecución.</p>
+                    </div>
+                    <div class="timeline-icon">4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">¿Listo para revolucionar la construcción?</h2>
+            <p class="cta-text">El sistema universal CUEVA está probado por 15+ años de innovación. Juntos podemos materializar cualquier proyecto con geometría adaptativa infinita.</p>
+            <div class="hero-cta">
+                <a href="mailto:contacto@cueva.com" class="btn btn-primary">Contactar</a>
+                <a href="#bocetos" class="btn btn-secondary">Revisar Propuesta</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-brand">CUEVA</div>
+        <p class="footer-text">Sistema Universal de Construcción</p>
+        <p class="footer-text" style="margin-top: 0.5rem;">© 2025 CUEVA. Todos los derechos reservados.</p>
+        <p class="footer-text" style="margin-top: 1rem; font-family: var(--font-mono); font-size: 12px;">
+            ES 2 569 130 B1 | Geometría Paramétrica Universal
+        </p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <img id="lightbox-image" src="" alt="Imagen ampliada" class="lightbox-image">
+        </div>
+    </div>
+
+    <script>
+        // Lightbox functionality
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            lightboxImage.src = imageSrc;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        // Close lightbox on click outside
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animation to elements
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gallery-item, .plan-item, .video-container, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
